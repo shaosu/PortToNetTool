@@ -12,7 +12,6 @@ namespace PortToNet.ViewModels
 {
     public class FrpcSettingVM : Prism.Mvvm.BindableBase
     {
-
         /*
          * 
 serverAddr = "xxx.xxx.xxx.xxx"

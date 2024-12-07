@@ -16,6 +16,20 @@ namespace PortToNet.Views
         {
             InitializeComponent();
             //this.DataContext = new ViewModels.WinTitleContentViewModel();
+            this.MouseMove -= WinTitleContent_MouseMove;
+            this.MouseMove += WinTitleContent_MouseMove;
+        }
+
+        private void WinTitleContent_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                // ((Window)(this.Parent)).DragMove();
+                var cp = (ContentPresenter)this.VisualParent;
+                //var g = (Grid)cp.Parent;
+                Window mw = (Window)cp.TemplatedParent;
+                mw.DragMove();
+            }
         }
         private void MenuAbout_OnClick(object sender, System.Windows.RoutedEventArgs e)
         {
