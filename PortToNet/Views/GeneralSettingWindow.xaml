@@ -1,0 +1,58 @@
+﻿<Window x:Class="PortToNet.Views.GeneralSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:local="clr-namespace:PortToNet.Views"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        Title="{DynamicResource GeneralSetting}"
+        Width="350"
+        Height="450"
+        prism:ViewModelLocator.AutoWireViewModel="False"
+        Icon="pack://SiteOfOrigin:,,,/Res/Logo/logo.ico"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="FrpcTextBoxStyle" BasedOn="{StaticResource TextBoxExtend}" TargetType="TextBox">
+            <Setter Property="Width" Value="280" />
+            <Setter Property="Margin" Value="0,3,2,0" />
+            <Setter Property="MaxLength" Value="40" />
+        </Style>
+        <Style x:Key="FrpcComboBoxStyle" BasedOn="{StaticResource ComboBoxExtend}" TargetType="hc:ComboBox">
+            <Setter Property="Width" Value="323" />
+            <Setter Property="Margin" Value="0,3,2,0" />
+
+        </Style>
+
+    </Window.Resources>
+
+    <StackPanel Margin="5,2,5,5"
+                d:DesignWidth="320"
+                hc:InfoElement.TitlePlacement="Left"
+                hc:InfoElement.TitleWidth="120"
+                hc:TitleElement.HorizontalAlignment="Right"
+                Orientation="Vertical">
+
+        <hc:Divider Margin="0,0,0,10"
+                    Padding="10,0"
+                    HorizontalContentAlignment="Left"
+                    Content="{DynamicResource GeneralSetting}" />
+
+        <hc:NumericUpDown hc:InfoElement.Title="{DynamicResource CanPackInterval:}"
+                          Maximum="1000"
+                          Minimum="50"
+                          Style="{StaticResource NumericUpDownExtend}"
+                          Value="{Binding CanPackInterval, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel Margin="0,15,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button MinWidth="100"
+                    Margin="3"
+                    Command="{Binding SaveGeneralSettingCommand}"
+                    Content="保存"
+                    Style="{StaticResource ButtonPrimary}" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

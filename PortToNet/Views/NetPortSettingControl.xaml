@@ -1,0 +1,140 @@
+﻿<StackPanel x:Class="PortToNet.Views.NetPortSettingControl"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:hc="https://handyorg.github.io/handycontrol"
+            xmlns:local="clr-namespace:PortToNet.Views"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:model="clr-namespace:PortToNet.Model"
+            xmlns:prism="http://prismlibrary.com/"
+            d:DesignHeight="450"
+            d:DesignWidth="220"
+            hc:InfoElement.TitlePlacement="Top"
+            hc:InfoElement.TitleWidth="80"
+            hc:TitleElement.HorizontalAlignment="Left"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+            Orientation="Vertical"
+            mc:Ignorable="d">
+
+    <StackPanel.Resources>
+        <model:NetProtocolType x:Key="EnumTcpServer">TCP_Server</model:NetProtocolType>
+        <x:Array x:Key="EnumUDPArray" Type="{x:Type model:NetProtocolType}">
+            <model:NetProtocolType>UDP</model:NetProtocolType>
+            <model:NetProtocolType>UDP_Server</model:NetProtocolType>
+        </x:Array>
+
+    </StackPanel.Resources>
+
+    <StackPanel IsEnabled="{Binding IsOpened, Converter={StaticResource InverseBooleanConverter}}" Orientation="Vertical">
+        <ComboBox MinWidth="218"
+                  Margin="0,0,2,0"
+                  HorizontalAlignment="Center"
+                  hc:InfoElement.Placeholder="{DynamicResource PleaseSelect}"
+                  hc:InfoElement.Title="{DynamicResource ProtocolType}"
+                  IsEditable="False"
+                  ItemsSource="{Binding ProtocolList, Mode=TwoWay}"
+                  SelectedItem="{Binding Protocol}"
+                  Style="{StaticResource ComboBoxExtend}" />
+
+        <TextBox Width="380"
+                 Margin="0,16,2,0"
+                 hc:InfoElement.Placeholder="{DynamicResource IPAddressExample}"
+                 hc:InfoElement.Title="{Binding IPAddressStr}"
+                 hc:InfoElement.TitleWidth="140"
+                 MaxLength="40"
+                 Style="{StaticResource TextBoxExtend}"
+                 Text="{Binding IPAddress, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBox Width="380"
+                 Margin="0,16,2,0"
+                 hc:InfoElement.Placeholder="{DynamicResource PleaseInput}"
+                 hc:InfoElement.Title="{DynamicResource NetPortNumber}"
+                 hc:InfoElement.TitleWidth="140"
+                 MaxLength="5"
+                 Style="{StaticResource TextBoxExtend}"
+                 Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" />
+
+        <ComboBox MinWidth="218"
+            Margin="0,0,2,0"
+            HorizontalAlignment="Center"
+            hc:InfoElement.Placeholder="{DynamicResource PleaseSelect}"
+            hc:InfoElement.Title="{DynamicResource LocalIPAddress}"
+            IsEditable="False"
+            ItemsSource="{Binding LocalIPAddressList, Mode=OneWay}"
+            SelectedItem="{Binding LocalIPAddressStr}"
+            Style="{StaticResource ComboBoxExtend}"    
+            Visibility="{Binding Protocol, Converter={StaticResource TcpProtocol2VisibilityConverter}, ConverterParameter={StaticResource EnumUDPArray}}"  />
+
+        <TextBox Width="380"
+                 Margin="0,16,2,0"
+                 hc:InfoElement.Placeholder="{DynamicResource PleaseInput}"
+                 hc:InfoElement.Title="{DynamicResource LocalNetPortNumber}"
+                 hc:InfoElement.TitleWidth="140"
+                 MaxLength="5"
+                 Style="{StaticResource TextBoxExtend}"
+                 Text="{Binding UdpLocalPort, UpdateSourceTrigger=PropertyChanged}"
+                 Visibility="{Binding Protocol, Converter={StaticResource TcpProtocol2VisibilityConverter}, ConverterParameter={StaticResource EnumUDPArray}}" />
+
+    </StackPanel>
+
+    <ToggleButton Margin="-20,5,0,0"
+                  HorizontalContentAlignment="Center"
+                  hc:InfoElement.TitleWidth="20"
+                  hc:StatusSwitchElement.HideUncheckedElement="True"
+                  hc:ToggleButtonAttach.ShowLabel="True"
+                  Command="{Binding OpenOrCloseCommand}"
+                  Cursor="Hand"
+                  IsChecked="{Binding IsOpened, Mode=OneWay}"
+                  IsEnabled="{Binding OpenOrCloseing, Converter={StaticResource InverseBooleanConverter}}"
+                  Style="{StaticResource ToggleButtonCustom}">
+        <hc:StatusSwitchElement.CheckedElement>
+            <Border Width="120"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Center"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="2"
+                    CornerRadius="4">
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="20"
+                             Height="20"
+                             Fill="{DynamicResource SuccessBrush}"
+                             Stroke="{DynamicResource BorderBrush}"
+                             StrokeThickness="1" />
+                    <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Disconnect}" />
+                </StackPanel>
+            </Border>
+        </hc:StatusSwitchElement.CheckedElement>
+        <Border Width="120"
+                Height="30"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Center"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="2"
+                CornerRadius="4">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Width="20"
+                         Height="20"
+                         Fill="{DynamicResource BorderBrush}"
+                         Stroke="{DynamicResource BorderBrush}"
+                         StrokeThickness="1" />
+                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding ConnectStr}" />
+            </StackPanel>
+        </Border>
+    </ToggleButton>
+
+    <hc:Badge BadgeMargin="0,5,5,0"
+              Style="{StaticResource BadgePrimary}"
+              Visibility="{Binding Protocol, Converter={StaticResource TcpProtocol2VisibilityConverter}, ConverterParameter={StaticResource EnumTcpServer}}"
+              Value="{Binding TcpServerOfClientStr.Count}">
+        <ComboBox Margin="0,0,2,0"
+                  hc:InfoElement.Title="{DynamicResource Client}"
+                  hc:InfoElement.TitlePlacement="Top"
+                  hc:InfoElement.TitleWidth="60"
+                  hc:TitleElement.HorizontalAlignment="Left"
+                  ItemsSource="{Binding TcpServerOfClientStr}"
+                  SelectedItem="{Binding TcpServerSelectedItem}"
+                  Style="{StaticResource ComboBoxExtend}" />
+    </hc:Badge>
+
+</StackPanel>

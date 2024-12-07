@@ -1,0 +1,19 @@
+serverAddr = "xxx.xxx.xxx.xxx"
+
+serverPort = xxx
+
+auth.token = "xxx"
+
+
+
+[[proxies]]
+
+name = "test"
+
+type = "udp"
+
+localIP = "127.0.0.1"
+
+localPort = 15000
+
+remotePort = 15000

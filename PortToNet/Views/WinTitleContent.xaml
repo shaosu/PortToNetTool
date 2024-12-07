@@ -1,0 +1,132 @@
+﻿<Grid x:Class="PortToNet.Views.WinTitleContent"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      xmlns:local="clr-namespace:PortToNet.Views"
+      xmlns:prism="http://prismlibrary.com/"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      Height="30"
+      prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid.Resources>
+        <sys:Double x:Key="FileMenuFontSize">15</sys:Double>
+        <sys:Double x:Key="MenuHeight">30</sys:Double>
+    </Grid.Resources>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+
+    <!--  菜单  -->
+    <StackPanel VerticalAlignment="Stretch" Orientation="Horizontal">
+        <Menu Margin="5,0,0,0" Background="Transparent" FontSize="{StaticResource FileMenuFontSize}">
+            <MenuItem Height="{StaticResource MenuHeight}" Margin="0" Header="{DynamicResource File}">
+                <MenuItem Header="New" InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <TextBlock Style="{StaticResource FIcon}" Text="&#xe932;" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Command="{Binding ExitCommand}" Header="{DynamicResource Exit}" InputGestureText="Alt+F4">
+                    <MenuItem.Icon>
+                        <TextBlock Style="{StaticResource FIcon}" Text="&#xe6dd;" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Height="{StaticResource MenuHeight}" Header="{DynamicResource Setting}">
+                <MenuItem Command="{Binding OpenGeneralSettingCommand}" Header="{DynamicResource GeneralSetting}">
+                    <MenuItem.Icon>
+                        <TextBlock Style="{StaticResource FIcon}" Text="&#xe79e;" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Command="{Binding OpenFrpcSettingCommand}" Header="{DynamicResource FrpcSetting}">
+                    <MenuItem.Icon>
+                        <TextBlock Style="{StaticResource FIcon}" Text="&#xe79e;" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+            </MenuItem>
+
+            <MenuItem Height="{StaticResource MenuHeight}" Header="{DynamicResource Help}">
+                <MenuItem Command="{Binding HelpCommand}" Header="{DynamicResource Help}" InputGestureText="F1">
+                    <MenuItem.Icon>
+                        <TextBlock Style="{StaticResource FIcon}" Text="&#xe644;" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Click="MenuAbout_OnClick" Header=" About" />
+            </MenuItem>
+        </Menu>
+    </StackPanel>
+
+    <!--  当前打开文件  -->
+    <TextBlock Grid.Column="1"
+               MaxWidth="300"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               FontSize="{StaticResource FileMenuFontSize}"
+               Text="{Binding CurFileName}"
+               TextAlignment="Left"
+               TextTrimming="CharacterEllipsis" />
+    <!--  设置按钮  -->
+    <Button Name="ButtonConfig"
+            Grid.Column="2"
+            hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+            Click="ButtonConfig_OnClick"
+            Content="Config"
+            Style="{StaticResource ButtonIcon}" />
+    <!--  设置按钮弹出框  -->
+    <Popup Name="PopupConfig"
+           Grid.Column="1"
+           AllowsTransparency="True"
+           HorizontalOffset="-28"
+           PlacementTarget="{Binding ElementName=ButtonConfig}"
+           StaysOpen="False"
+           VerticalOffset="6">
+        <Border Margin="16" CornerRadius="4">
+            <StackPanel Orientation="Horizontal">
+                <!--  设置按钮弹出框 语言切换  -->
+                <StackPanel Margin="2" Button.Click="ButtonSkins_OnClick">
+                    <Button Margin="0,3"
+                            Command="{Binding ChangeLanguageCommand}"
+                            CommandParameter="zh-CN"
+                            Style="{StaticResource ButtonCustom}"
+                            Tag="zh-CN">
+                        <Image Width="32" Source="/Res/Img/Flag/cn.png" />
+                    </Button>
+                    <Button Command="{Binding ChangeLanguageCommand}"
+                            CommandParameter="en-US"
+                            Style="{StaticResource ButtonCustom}"
+                            Tag="en-US">
+                        <Image Width="32" Source="/Res/Img/Flag/en.png" />
+                    </Button>
+
+                </StackPanel>
+                <!--  设置按钮弹出框 主题切换  -->
+                <StackPanel Margin="2" Button.Click="ButtonSkins_OnClick">
+                    <Button Margin="0,3" Style="{StaticResource ButtonCustom}" Tag="{x:Static hc:ApplicationTheme.Light}">
+                        <Border Width="32"
+                                Height="21"
+                                Background="White"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="2" />
+                    </Button>
+                    <Button Margin="0" Style="{StaticResource ButtonCustom}" Tag="{x:Static hc:ApplicationTheme.Dark}">
+                        <Border Width="32"
+                                Height="21"
+                                Background="Black"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="2" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Popup>
+
+</Grid>

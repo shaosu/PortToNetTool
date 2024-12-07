@@ -1,0 +1,90 @@
+﻿<Window x:Class="PortToNet.Views.FrpcSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PortToNet.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        mc:Ignorable="d"
+        Icon="pack://SiteOfOrigin:,,,/Res/Logo/logo.ico"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        Title="FrpcSettingWindow" Height="450" Width="350">
+
+    <Window.Resources>
+        <Style x:Key="FrpcTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxExtend}" >
+            <Setter  Property="Width" Value="280"></Setter>
+            <Setter  Property="Margin" Value="0,3,2,0"> </Setter>
+            <Setter  Property="MaxLength" Value="40"></Setter>
+        </Style>
+        <Style x:Key="FrpcComboBoxStyle" TargetType="hc:ComboBox"  BasedOn="{StaticResource ComboBoxExtend}"  >
+            <Setter  Property="Width" Value="323"></Setter>
+            <Setter  Property="Margin" Value="0,3,2,0"></Setter>
+
+        </Style>
+        
+    </Window.Resources>
+
+    <StackPanel Orientation="Vertical"
+                Margin="5,2,5,5"
+                d:DesignWidth="320"
+                hc:InfoElement.TitlePlacement="Left"
+                hc:InfoElement.TitleWidth="100"
+                hc:TitleElement.HorizontalAlignment="Right">
+        <TextBlock Margin="5,2,5,5" FontSize="15" Style="{StaticResource TextBlockDefaultInfo}">
+            <Run Text="局域网环境且两台电脑互通时&#13;"></Run>
+            <Run Text="不需要Frpc工具"></Run>
+        </TextBlock>
+        
+        <TextBox hc:InfoElement.Title="服务器地址:"
+                 Style="{StaticResource FrpcTextBoxStyle}" 
+                 Text="{Binding Frpc.ServerAddr, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox hc:InfoElement.Title="服务器端口:"
+                 Style="{StaticResource FrpcTextBoxStyle}"
+                 Text="{Binding Frpc.ServerPort, UpdateSourceTrigger=PropertyChanged}" />
+
+        <hc:PasswordBox x:Name="pwd_AuthToken"   IsSafeEnabled="True"
+                        UnsafePassword="{Binding Frpc.AuthToken, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  
+                        Width="323"  ShowEyeButton="True"  hc:InfoElement.Title="AuthToken:" />
+
+        <hc:Divider Content="代理" Margin="0,0,0,10" Padding="10,0" HorizontalContentAlignment="Left"/>
+     
+
+        <TextBox hc:InfoElement.Title="Name:"
+                 Style="{StaticResource FrpcTextBoxStyle}"
+                 Text="{Binding Frpc.Name, UpdateSourceTrigger=PropertyChanged}" />
+
+        <hc:ComboBox ItemsSource="{Binding Frpc.TypeList}"    
+                     Style="{StaticResource FrpcComboBoxStyle}"
+                     IsEditable="false"  
+                     hc:InfoElement.TitleWidth="100"
+                     hc:InfoElement.Title="Type:" 
+                     Text="{Binding Frpc.Type, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <hc:ComboBox ItemsSource="{Binding Frpc.IPAddressList}"  
+                     Style="{StaticResource FrpcComboBoxStyle}"
+                     IsEditable="True" 
+                     SelectedIndex="0" 
+                     hc:InfoElement.Title="LocalIP:" 
+                     Text="{Binding Frpc.LocalIP, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <hc:NumericUpDown 
+            hc:InfoElement.Title="LocalPort:" 
+            Minimum="15000" Maximum="15400"  
+            Style="{StaticResource NumericUpDownExtend}" 
+            Value="{Binding Frpc.LocalPort, UpdateSourceTrigger=PropertyChanged}" />
+        <hc:NumericUpDown 
+            hc:InfoElement.Title="RemotePort:" 
+            Minimum="15000" Maximum="15400"  
+            Style="{StaticResource NumericUpDownExtend}" 
+            Value="{Binding Frpc.RemotePort, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+            <Button MinWidth="100" Margin="3" Style="{StaticResource ButtonPrimary}" Content="保存" Command="{Binding SaveFrpcSettingCommand}"></Button>
+            <Button MinWidth="100" Margin="3" Style="{StaticResource ButtonSuccess}" Content="启动" Command="{Binding RunFrpcCommand}"></Button>
+        </StackPanel>
+    </StackPanel>
+
+</Window>

@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+	<!-- CS0168 但从未使用过 -->
+   <NoWarn>CS0168</NoWarn>
+	<!-- CS8600 将null文本转换为不可为null类型 -->
+    <NoWarn>CS8600</NoWarn>
+	<BaseOutputPath>$(SolutionDir)\bin</BaseOutputPath>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Res\iconfont.ttf" />
+    <None Remove="Res\Img\Flag\cn.png" />
+    <None Remove="Res\Img\Flag\en.png" />
+    <None Remove="Res\Logo\logo.ico" />
+    <None Remove="Res\Logo\M512.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Res\iconfont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\Img\Flag\cn.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\Img\Flag\en.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\Logo\logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Res\Logo\M512.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HandyControls" Version="3.5.3" />
+    <PackageReference Include="Nett" Version="0.15.0" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+  </ItemGroup>
+	
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y /S &quot;$(SolutionDir)Config&quot; &quot;$(TargetDir)\Config\&quot;" />
+  </Target>
+
+</Project>

@@ -1,0 +1,95 @@
+﻿<StackPanel x:Class="PortToNet.Views.CanPortSettingControl"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:hc="https://handyorg.github.io/handycontrol"
+            xmlns:local="clr-namespace:PortToNet.Views"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:prism="http://prismlibrary.com/"
+            d:DesignHeight="450"
+            d:DesignWidth="220"
+            hc:InfoElement.TitlePlacement="Left"
+            hc:InfoElement.TitleWidth="80"
+            hc:TitleElement.HorizontalAlignment="Right"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+            Orientation="Vertical"
+            mc:Ignorable="d">
+    <StackPanel IsEnabled="{Binding IsOpened, Converter={StaticResource InverseBooleanConverter}}" Orientation="Vertical">
+        <ComboBox MinWidth="200"
+                  HorizontalAlignment="Center"
+                  hc:InfoElement.Placeholder="{DynamicResource PleaseSelect}"
+                  hc:InfoElement.Title="{DynamicResource CanDevType:}"
+                  IsEditable="False"
+                  ItemsSource="{Binding CanDevTypeList, Mode=TwoWay}"
+                  SelectedItem="{Binding CanDevType}"
+                  Style="{StaticResource ComboBoxExtend}" />
+
+        <ComboBox MinWidth="200"
+                  HorizontalAlignment="Center"
+                  hc:InfoElement.Placeholder="{DynamicResource PleaseSelect}"
+                  hc:InfoElement.Title="{DynamicResource CANNumber:}"
+                  IsEditable="False"
+                  ItemsSource="{Binding CANNumberList, Mode=OneWay}"
+                  SelectedItem="{Binding CANNumber}"
+                  Style="{StaticResource ComboBoxExtend}" />
+        <ComboBox MinWidth="200"
+                  HorizontalAlignment="Center"
+                  hc:InfoElement.Placeholder="{DynamicResource PleaseSelect}"
+                  hc:InfoElement.Title="{DynamicResource CANChannel:}"
+                  IsEditable="False"
+                  ItemsSource="{Binding CANChannelList, Mode=TwoWay}"
+                  SelectedItem="{Binding CANChannel}"
+                  Style="{StaticResource ComboBoxExtend}" />
+        <ComboBox MinWidth="200"
+                  HorizontalAlignment="Center"
+                  hc:InfoElement.Placeholder="{DynamicResource PleaseSelect}"
+                  hc:InfoElement.Title="{DynamicResource BaudRate:}"
+                  IsEditable="False"
+                  ItemsSource="{Binding CanBaudList, Mode=TwoWay}"
+                  SelectedItem="{Binding CanBaud}"
+                  Style="{StaticResource ComboBoxExtend}" />
+    </StackPanel>
+    <ToggleButton Margin="65,5,0,0"
+                  HorizontalContentAlignment="Center"
+                  hc:StatusSwitchElement.HideUncheckedElement="True"
+                  hc:ToggleButtonAttach.ShowLabel="True"
+                  Command="{Binding OpenOrCloseCommand}"
+                  Cursor="Hand"
+                  IsChecked="{Binding IsOpened, Mode=OneWay}"
+                  Style="{StaticResource ToggleButtonCustom}">
+        <hc:StatusSwitchElement.CheckedElement>
+            <Border Width="120"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Center"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="2"
+                    CornerRadius="4">
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="20"
+                             Height="20"
+                             Fill="{DynamicResource SuccessBrush}"
+                             Stroke="{DynamicResource BorderBrush}"
+                             StrokeThickness="1" />
+                    <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Close}" />
+                </StackPanel>
+            </Border>
+        </hc:StatusSwitchElement.CheckedElement>
+        <Border Width="120"
+                Height="30"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Center"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="2"
+                CornerRadius="4">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Width="20"
+                         Height="20"
+                         Fill="{DynamicResource BorderBrush}"
+                         Stroke="{DynamicResource BorderBrush}"
+                         StrokeThickness="1" />
+                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Open}" />
+            </StackPanel>
+        </Border>
+    </ToggleButton>
+</StackPanel>
